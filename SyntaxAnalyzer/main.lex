@@ -35,8 +35,8 @@ hello                   puts("hello");
                             printf("Multiline commented text \n===\n%s\n===\n", yytext);
                         }
 
-#.*\n                   {
-                            printf("Commented text \'%s\'", yytext);
+#.*(?#\n)               {
+                            printf("Commented text \'%s\'\n", yytext);
                         }
 
 [ \t\n]                 ;
