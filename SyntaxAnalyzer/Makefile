@@ -1,22 +1,22 @@
-LEX     = flex
+BISON   = bison
 CC      = gcc
 
-CC_FLAGS = -lfl
+LDLIBS = -ly
 
-LEX_SRC = main.lex
-LEX_TARGET = $(LEX_SRC:.lex=.c)
+BISON_SRC = main.y
+BISON_TARGET = $(LEX_SRC:.y=.c)
 
 TARGET = bin
 
 all: $(TARGET)
 
 $(TARGET): $(LEX_TARGET)
-	$(CC) -o $(TARGET) $(LEX_TARGET) $(CC_FLAGS)
+	$(CC) $(LEX_TARGET) -o $(TARGET) $(LDLIBS)
 
-$(LEX_TARGET): $(LEX_SRC)
-	$(LEX) -o $(LEX_TARGET) $(LEX_SRC)
+$(BISON_TARGET): $(BISON_SRC)
+	$(BISON) -o $(BISON_TARGET) $(BISON_SRC)
 
 
-clean: c
-c:
-	rm -f $(TARGET) $(LEX_TARGET)
+.PHONY: clean
+clean:
+	rm -f $(TARGET) $(BISON_TARGET)
