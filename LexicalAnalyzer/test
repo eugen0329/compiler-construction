@@ -1,23 +1,23 @@
 #int a = 1 + 1 - 2;
 
-# #{
-#asd asdas dasasd
-#commented text
-#   }#
-
-#{ }123 
-#}}}}}
+#{ }123
+ 451#}}}}}
 }}} }#
 
-int a = 1 + 1 - 2
+float f1 = 1.f
+float f2 = 1.
+float f3 = .1
+float f4 = 1.0
+
 string str = "123123 \n 123123"
 
 
+int a = 1 + 1 - 2
 for int i = 0 to 5
     a = i + 1
 end
 
-fun foo(arg1, arg2)
+fu bar(arg1, arg2)
 end
 
 

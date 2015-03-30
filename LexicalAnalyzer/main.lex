@@ -6,7 +6,7 @@
 
 DIGIT         [0-9]
 
-KEYWORD       if|then|elif|els|end|fun|for|to|end
+KEYWORD       if|then|elif|els|end|fu|for|to|end
 TYPE          int|float|string
 VAR_NAME      [a-zA-Z_][a-zA-Z_0-9!?]*
 SYM    [+-/*=}{)(,:!?]
@@ -29,7 +29,7 @@ SYM    [+-/*=}{)(,:!?]
                                 printf("Integer: \'%s\' (%d) \n", yytext, atoi(yytext));
                             }
 
-    {DIGIT}*\.{DIGIT}*f?    {
+    ({DIGIT}+\.{DIGIT}*|{DIGIT}*\.{DIGIT})f? {
                                 printf("Float: \'%s\' (%f)\n", yytext, atof( yytext ) );
                             }
 
