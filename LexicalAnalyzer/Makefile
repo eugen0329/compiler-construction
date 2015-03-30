@@ -1,7 +1,8 @@
 LEX     = flex
-CC      = gcc
+CC      = g++
 
-LDLIBS = -lfl
+#LDLIBS = -lfl
+LDLIBS =
 
 LEX_SRC = main.lex
 LEX_TARGET = $(LEX_SRC:.lex=.c)
