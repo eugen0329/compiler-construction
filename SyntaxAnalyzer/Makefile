@@ -3,9 +3,9 @@ CC      = gcc
 
 LDLIBS = -ly
 
-BISON_SRC = main.y
+BISON_SRC = syntax.y
 BISON_TARGET = $(BISON_SRC:.y=.c)
-BISON_DEFINES = yccdefs.h
+BISON_FLAGS = 
 
 TARGET = bin
 
@@ -15,9 +15,9 @@ $(TARGET): $(BISON_TARGET)
 	$(CC) $(BISON_TARGET) -o $(TARGET) $(LDLIBS)
 
 $(BISON_TARGET): $(BISON_SRC)
-	$(BISON) -o $(BISON_TARGET) --defines=$(BISON_DEFINES) $(BISON_FLAGS) $(BISON_SRC)
+	$(BISON) -o $(BISON_TARGET) $(BISON_FLAGS) $(BISON_SRC)
 
 
 .PHONY: clean
 clean:
-	rm -f $(TARGET) $(BISON_TARGET) $(BISON_DEFINES)
+	rm -f $(TARGET) $(BISON_TARGET)

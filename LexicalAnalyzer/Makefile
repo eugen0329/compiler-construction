@@ -1,10 +1,9 @@
 LEX     = flex
 CC      = g++
 
-#LDLIBS = -lfl
 LDLIBS =
 
-LEX_SRC = main.lex
+LEX_SRC = lexis.lex
 LEX_TARGET = $(LEX_SRC:.lex=.c)
 
 TARGET = bin
