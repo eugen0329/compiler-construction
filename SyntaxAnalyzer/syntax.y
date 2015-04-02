@@ -107,6 +107,7 @@ multiplicative_expr
 
 unary_expr
         : NUM
+        | STRING_LITER
         | postfix_expr
         | '-' unary_expr
         | '!' unary_expr
@@ -129,7 +130,6 @@ arg_expr_list
 
 arg_expr
         : expression
-        | STRING_LITER
         ;
 
 

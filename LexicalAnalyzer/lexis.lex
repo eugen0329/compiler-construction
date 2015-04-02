@@ -11,8 +11,6 @@
 
 DIGIT         [0-9]
 
-KEYWORD     if|then|elif|els|end|fu|for|to|end
-TYPE        int|float|string
 IDENTIFIER    [a-zA-Z_][a-zA-Z_0-9!?]*
 SYM         [+-/*=}{)(,:!?]
 
@@ -51,7 +49,7 @@ SYM         [+-/*=}{)(,:!?]
     int                     return INT;
     float                   return FLOAT;
     string                  return STRING;
-    [\n;]                    return yytext[0];
+    [\n;]                   return yytext[0];
 
 
     {IDENTIFIER}            {
