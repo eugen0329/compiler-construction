@@ -28,8 +28,6 @@ SYM         [+-/*=}{)(,:!?]
 
 <INITIAL>{
     {DIGIT}+                {
-                                //printf("Integer: \'%s\' (%d) \n", yytext, atoi(yytext));
-                                //printf("Integer: \'%s\' (%d) \n", yytext, atoi(yytext));
                                 yylval = yytext;
                                 return NUM;
                             }
@@ -37,6 +35,7 @@ SYM         [+-/*=}{)(,:!?]
     ({DIGIT}+\.{DIGIT}*|{DIGIT}*\.{DIGIT})f? {
                                 //printf("Float: \'%s\' (%f)\n", yytext, atof( yytext ) );
                             }
+
     if                      return IF;
     then                    return THEN;
     elif                    return ELIF;
@@ -60,13 +59,11 @@ SYM         [+-/*=}{)(,:!?]
     {SYM}                   { return yytext[0]; }
 
     \"                      {
-                                //printf("String: \"");
                                 yylval = "";
                                 BEGIN(STR);
                             }
 
     #\{                     {
-                                //printf("Block comment: \n\'");
                                 BEGIN(COMMENT_BL);
                             }
 
@@ -77,14 +74,12 @@ SYM         [+-/*=}{)(,:!?]
     [ \t]                   ;
 
     .                       {
-                                //printf("Syntax error at line %d\n", yylineno);
                                 exit(EXIT_FAILURE);
                             }
 }
 
 <COMMENT_BL>{
     [^}]+                   {
-                                //printf("%s", yytext);
                             }
 
     \}#                     {
@@ -109,12 +104,10 @@ SYM         [+-/*=}{)(,:!?]
 
     [^"\n\\]+           {
                             yylval += yytext;
-                            //printf("%s", yytext);
                         }
 
     \\n                 {
                             yylval += "\n";
-                            //printf("\\n");
                         }
 
     \n                  {

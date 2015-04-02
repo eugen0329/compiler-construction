@@ -40,10 +40,15 @@ statements
 
 statement
         : expression_statement
-        | declaration
+        | declaration_statement
+        | selection_statement
         ;
 
-declaration
+selection_statement
+        : IF  expression delimiter statement END_BL
+        ;
+
+declaration_statement
         : type_spec declaration_list delimiter
         ;
 
