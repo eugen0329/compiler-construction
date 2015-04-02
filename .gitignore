@@ -1,5 +1,8 @@
 SyntaxAnalyzer/*.c
+SyntaxAnalyzer/*.h
 SyntaxAnalyzer/bin
 
 LexicalAnalyzer/*.c
 LexicalAnalyzer/bin
+
+bin
