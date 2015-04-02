@@ -35,17 +35,16 @@ primary_statement
 statements
         : statement
         | statements statement
-        | statements delimiter
         ;
 
 
 statement
-        : expression_statement delimiter
-        | declaration delimiter
+        : expression_statement
+        | declaration
         ;
 
 declaration
-        : type_spec declaration_list
+        : type_spec declaration_list delimiter
         ;
 
 type_spec
@@ -123,15 +122,10 @@ postfix_expr
 
 
 arg_expr_list
-        : arg_expr
-        | arg_expr_list ',' arg_expr
+        : assignment_expression
+        | arg_expr_list ',' assignment_expression
         | /* nothing */
         ;
-
-arg_expr
-        : expression
-        ;
-
 
 delimiter
         : '\n'
