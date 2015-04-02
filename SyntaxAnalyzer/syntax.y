@@ -35,11 +35,13 @@ primary_statement
 statements
         : statement
         | statements statement
+        | statements delimiter
         ;
 
+
 statement
-        : expression
-        | declaration
+        : expression_statement delimiter
+        | declaration delimiter
         ;
 
 declaration
@@ -54,7 +56,7 @@ type_spec
 
 declaration_list
         : declarator
-        | declaration_list ',' declarator
+        | declarator ',' declaration_list
         ;
 
 declarator
@@ -63,12 +65,14 @@ declarator
         ;
 
 initializer
-        : ID
-        | STRING_LITER
-        | NUM
-        | expression
+        : expression
         ;
 
+
+expression_statement
+        : delimiter
+        | expression delimiter
+        ;
 
 expression
         : assignment_expression
@@ -120,7 +124,7 @@ postfix_expr
 arg_expr_list
         : arg_expr
         | arg_expr_list ',' arg_expr
-        |
+        | /* nothing */
         ;
 
 arg_expr
@@ -128,6 +132,11 @@ arg_expr
         | STRING_LITER
         ;
 
+
+delimiter
+        : '\n'
+        | ';'
+        ;
 %%
 
 int main()

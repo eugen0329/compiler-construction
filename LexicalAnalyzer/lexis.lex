@@ -51,6 +51,7 @@ SYM         [+-/*=}{)(,:!?]
     int                     return INT;
     float                   return FLOAT;
     string                  return STRING;
+    [\n;]                    return yytext[0];
 
 
     {IDENTIFIER}            {
@@ -75,7 +76,7 @@ SYM         [+-/*=}{)(,:!?]
                                 BEGIN(COMMENT_LN);
                             }
 
-    [ \t\n]                 ;
+    [ \t]                   ;
 
     .                       {
                                 //printf("Syntax error at line %d\n", yylineno);
