@@ -23,6 +23,7 @@ TARGET = bin
 all: CCFLAGS += -Wno-write-strings
 all: $(TARGET)
 
+debug: BISON_FLAGS += -v
 debug: CCFLAGS += -DDEBUG -pedantic -Wall
 debug: $(TARGET)
 

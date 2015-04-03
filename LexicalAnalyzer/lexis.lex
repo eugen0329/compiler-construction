@@ -3,6 +3,8 @@
         #include <string>
         #define YYSTYPE std::string
         extern "C" int yylex();
+    #else
+        extern int yylex();
     #endif
 
     #include "yccdefs.h"
@@ -12,7 +14,7 @@
 DIGIT         [0-9]
 
 IDENTIFIER    [a-zA-Z_][a-zA-Z_0-9!?]*
-SYM         [+-/*=}{)(,:!?]
+SYM           [+-/*=}{)(,:!?]
 
 %option noyywrap
 %option yylineno
@@ -36,20 +38,26 @@ SYM         [+-/*=}{)(,:!?]
                                 //printf("Float: \'%s\' (%f)\n", yytext, atof( yytext ) );
                             }
 
-    if                      return IF;
-    then                    return THEN;
-    elif                    return ELIF;
-    els                     return ELS;
-    fu                      return FU;
-    for                     return FOR;
-    to                      return TO;
-    'end'                   return END_BL;
+    if                      { return IF;     }
+    then                    { return THEN;   }
+    elif                    { return ELIF;   }
+    els                     { return ELS;    }
+    fu                      { return FU;     }
+    for                     { return FOR;    }
+    to                      { return TO;     }
+    end                     { return END_BL; }
 
-    int                     return INT;
-    float                   return FLOAT;
-    string                  return STRING;
-    [\n;]                   return yytext[0];
+    int                     { return INT;    }
+    float                   { return FLOAT;  }
+    string                  { return STRING; }
+    [\n;]                   { return yytext[0]; }
 
+    "<="                    { return LE; }
+    ">="                    { return GE; }
+    "=="                    { return EQ; }
+    "!="                    { return NE; }
+    "<"                     { return yytext[0]; }
+    ">"                     { return yytext[0]; }
 
     {IDENTIFIER}            {
                                 yylval = yytext;

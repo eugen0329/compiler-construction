@@ -2,19 +2,17 @@
     #ifdef __cplusplus
         #include <iostream>
         #include <cstdlib>
-        extern "C" {
-            int yylex();
-        }
+        extern "C" int yylex();
         #define YYSTYPE std::string
     #else
-        extern int yylex();
         #include <stdio.h>
         #include <stdlib.h>
+        extern int yylex();
     #endif
 
     extern int yylineno;
     void yyerror(char *s) {
-      std::cerr << s << "at line " << yylineno << std::endl;
+      std::cerr << s << "on line " << yylineno << std::endl;
       exit(EXIT_FAILURE);
     }
 %}
@@ -25,12 +23,9 @@
 %token EQ LE GE NE
 %token STRING_LITER NUM ID
 
+%start statements
 
 %%
-
-primary_statement
-        : statements
-        ;
 
 statements
         : statement
@@ -45,7 +40,8 @@ statement
         ;
 
 selection_statement
-        : IF  expression delimiter statement END_BL
+        : IF  expression_statement statements END_BL
+        | IF  expression_statement statements ELS statements END_BL
         ;
 
 declaration_statement
@@ -84,7 +80,7 @@ expression
 
 assignment_expression
         : logical_expression
-        | unary_expr '=' assignment_expression
+        | ID '=' assignment_expression
         ;
 
 logical_expression
@@ -110,9 +106,9 @@ multiplicative_expr
         ;
 
 unary_expr
-        : NUM
+        : postfix_expr
         | STRING_LITER
-        | postfix_expr
+        | NUM
         | '-' unary_expr
         | '!' unary_expr
         | '(' expression ')'
