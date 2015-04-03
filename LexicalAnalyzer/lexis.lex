@@ -8,102 +8,90 @@
     #endif
 
     #include "yccdefs.h"
-    void yyerror(char *s);
+    extern void yyerror(char *s);
 %}
 
-digit            [0-9]
-
-identifier       [a-zA-Z_][a-zA-Z_0-9!?]*
-symbol           [+-/*=}{)(,:!?]
-float_literal    ({digit}+\.{digit}*|{digit}*\.{digit})f?
+digit           [0-9]
+idetifier       [a-zA-Z_][a-zA-Z_0-9!?]*
+symbol          [+-/*=}{)(,:!?]
+float_literal   ({digit}+\.{digit}*|{digit}*\.{digit}+)f?
 
 %option noyywrap
 %option yylineno
 
 %x STR
-%x COMMENT
- /*comment line*/
+ /* comment line */
 %x COMMENT_LN
- /*comment block*/
+ /* comment block */
 %x COMMENT_BL
 
 %%
 
 <INITIAL>{
-    {digit}+               {
-                                yylval = yytext;
-                                return NUM_LITER;
-                            }
+    {digit}+            {
+                            yylval = yytext;
+                            return NUM_LITER;
+                        }
 
-    {float_literal}         {
-                                yylval = yytext;
-                                return FLOAT_LITER;
-                            }
+    {float_literal}     {
+                            yylval = yytext;
+                            return FLOAT_LITER;
+                        }
 
-    if                      { return IF;     }
-    then                    { return THEN;   }
-    elif                    { return ELIF;   }
-    els                     { return ELS;    }
-    fu                      { return FU;     }
-    for                     { return FOR;    }
-    in                      { return IN;     }
-    end                     { return END_BL; }
+    if                  { return IF;     }
+    then                { return THEN;   }
+    elif                { return ELIF;   }
+    els                 { return ELS;    }
+    fu                  { return FU;     }
+    for                 { return FOR;    }
+    in                  { return IN;     }
+    end                 { return END_BL; }
 
-    int                     { return INT;    }
-    float                   { return FLOAT;  }
-    string                  { return STRING; }
-    [\n;]                   { return yytext[0]; }
+    int                 { return INT;    }
+    float               { return FLOAT;  }
+    string              { return STRING; }
+    [\n;]               { return yytext[0]; }
 
-    "<="                    { return LE; }
-    ">="                    { return GE; }
-    "=="                    { return EQ; }
-    "!="                    { return NE; }
-    "<"                     { return yytext[0]; }
-    ">"                     { return yytext[0]; }
+    "<="                { return LE; }
+    ">="                { return GE; }
+    "=="                { return EQ; }
+    "!="                { return NE; }
+    "<"                 { return yytext[0]; }
+    ">"                 { return yytext[0]; }
 
-    {identifier}            {
-                                yylval = yytext;
-                                return ID;
-                            }
+    {idetifier}         {
+                            yylval = yytext;
+                            return ID;
+                        }
 
-    {symbol}                   { return yytext[0]; }
+    {symbol}            { return yytext[0]; }
 
-    \"                      {
-                                yylval = "";
-                                BEGIN(STR);
-                            }
+    \"                  {
+                            yylval = "";
+                            BEGIN(STR);
+                        }
 
-    #\{                     {
-                                BEGIN(COMMENT_BL);
-                            }
+    #\{                 { BEGIN(COMMENT_BL); }
 
-    #                       {
-                                BEGIN(COMMENT_LN);
-                            }
+    #                   { BEGIN(COMMENT_LN); }
 
-    [ \t]                   ;
+    [ \t]               { /* eats tabs and spaces */ }
 
-    .                       {
-                                exit(EXIT_FAILURE);
-                            }
+    .                   { yyerror("Invalid character"); }
 }
 
 <COMMENT_BL>{
-    [^}]+                   {
-                            }
+    [^}]+               { /* eats everything that match any non '}' character */ }
 
-    \}#                     {
-                                BEGIN(INITIAL);
-                            }
+    [}]+[^#]            { /* eats each '}' except that are before the '#' */}
+
+    \}#                 { BEGIN(INITIAL); }
 }
 
 <COMMENT_LN>{
-    [^\n]+              {
-                        }
+    [^\n]+              { /* nothing */ }
 
-    \n                  {
-                            BEGIN(INITIAL);
-                        }
+    \n                  { BEGIN(INITIAL); }
 }
 
 <STR>{
@@ -112,23 +100,14 @@ float_literal    ({digit}+\.{digit}*|{digit}*\.{digit})f?
                             return STRING_LITER;
                         }
 
-    [^"\n\\]+           {
-                            yylval += yytext;
-                        }
+    [^"\n\\]+           { yylval += yytext; }
 
-    \\n                 {
-                            yylval += "\n";
-                        }
+    \\n                 { yylval += "\n"; }
 
-    \n                  {
-                            printf("New line in string at line %d", yylineno);
-                            exit(EXIT_FAILURE);
-                        }
+    \n                  { yyerror("Line break inside the string"); }
+
     /* only the \n escape allowed */
-    \\                  {
-                            printf("Wrong escape in string at line %d", yylineno);
-                            exit(EXIT_FAILURE);
-                        }
+    \\                  { yyerror("Wrong escape inside the string"); }
 }
 
 %%

@@ -11,8 +11,9 @@
     #endif
 
     extern int yylineno;
+
     void yyerror(char *s) {
-      std::cerr << s << "on line " << yylineno << std::endl;
+      std::cerr << s << " on line " << yylineno << std::endl;
       exit(EXIT_FAILURE);
     }
 %}

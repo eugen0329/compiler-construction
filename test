@@ -1,8 +1,10 @@
+#{ Multiline
+ comment block
+}#
 
+int a = 1 + 1 - 2
 float f = 1.f - .0 * .5f / 1.2
 string str = "123123 \n 123123"
-int a = 1 + 1 - 2;;;;
-
 
 if 1 < 2 + (1 > 3) * !(b <= c) + !!(d >= e); int a = 2
   #int a = 2
@@ -11,6 +13,7 @@ end
 # empty if block test
 if 1
 end
+
 
 # single line loop
 for a = 1 in 23 ; a = 3 ; end
