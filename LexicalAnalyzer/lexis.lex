@@ -11,10 +11,11 @@
     void yyerror(char *s);
 %}
 
-DIGIT         [0-9]
+digit            [0-9]
 
-IDENTIFIER    [a-zA-Z_][a-zA-Z_0-9!?]*
-SYM           [+-/*=}{)(,:!?]
+identifier       [a-zA-Z_][a-zA-Z_0-9!?]*
+symbol           [+-/*=}{)(,:!?]
+float_literal    ({digit}+\.{digit}*|{digit}*\.{digit})f?
 
 %option noyywrap
 %option yylineno
@@ -29,13 +30,14 @@ SYM           [+-/*=}{)(,:!?]
 %%
 
 <INITIAL>{
-    {DIGIT}+                {
+    {digit}+               {
                                 yylval = yytext;
-                                return NUM;
+                                return NUM_LITER;
                             }
 
-    ({DIGIT}+\.{DIGIT}*|{DIGIT}*\.{DIGIT})f? {
-                                //printf("Float: \'%s\' (%f)\n", yytext, atof( yytext ) );
+    {float_literal}         {
+                                yylval = yytext;
+                                return FLOAT_LITER;
                             }
 
     if                      { return IF;     }
@@ -44,7 +46,7 @@ SYM           [+-/*=}{)(,:!?]
     els                     { return ELS;    }
     fu                      { return FU;     }
     for                     { return FOR;    }
-    to                      { return TO;     }
+    in                      { return IN;     }
     end                     { return END_BL; }
 
     int                     { return INT;    }
@@ -59,12 +61,12 @@ SYM           [+-/*=}{)(,:!?]
     "<"                     { return yytext[0]; }
     ">"                     { return yytext[0]; }
 
-    {IDENTIFIER}            {
+    {identifier}            {
                                 yylval = yytext;
                                 return ID;
                             }
 
-    {SYM}                   { return yytext[0]; }
+    {symbol}                   { return yytext[0]; }
 
     \"                      {
                                 yylval = "";

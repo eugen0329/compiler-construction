@@ -17,19 +17,19 @@
     }
 %}
 
-%token IF THEN ELIF ELS END FU FOR TO END_BL EXIT
+%token IF THEN ELIF ELS END FU FOR IN END_BL EXIT
 %token INT FLOAT STRING
 
 %token EQ LE GE NE
-%token STRING_LITER NUM ID
+%token STRING_LITER FLOAT_LITER NUM_LITER ID
 
 %start statements
 
 %%
 
 statements
-        : statement
-        | statements statement
+        : statements statement
+        | /* emtpy */
         ;
 
 
@@ -37,11 +37,17 @@ statement
         : expression_statement
         | declaration_statement
         | selection_statement
+        | loop_statement
         ;
+
 
 selection_statement
         : IF  expression_statement statements END_BL
         | IF  expression_statement statements ELS statements END_BL
+        ;
+
+loop_statement
+        : FOR expression IN expression_statement statements END_BL
         ;
 
 declaration_statement
@@ -108,7 +114,8 @@ multiplicative_expr
 unary_expr
         : postfix_expr
         | STRING_LITER
-        | NUM
+        | NUM_LITER
+        | FLOAT_LITER
         | '-' unary_expr
         | '!' unary_expr
         | '(' expression ')'
