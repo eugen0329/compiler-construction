@@ -4,7 +4,6 @@ CCFLAGS =
 LEX     = flex
 BISON   = bison
 
-#LDLIBS = -ly
 LDLIBS = -lfl
 
 BISON_SRC = ./SyntaxAnalyzer/syntax.y

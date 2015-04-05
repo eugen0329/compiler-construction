@@ -4,7 +4,6 @@ SyntaxAnalyzer/bin
 
 LexicalAnalyzer/*.c
 LexicalAnalyzer/bin
-
-*.output
+LexicalAnalyzer/*.output
 
 bin

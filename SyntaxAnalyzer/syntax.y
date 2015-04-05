@@ -12,10 +12,7 @@
 
     extern int yylineno;
 
-    void yyerror(char *s) {
-      std::cerr << s << " on line " << yylineno << std::endl;
-      exit(EXIT_FAILURE);
-    }
+    void yyerror(char *s);
 %}
 
 %token IF THEN ELIF ELS END FU FOR IN END_BL EXIT
@@ -150,3 +147,8 @@ int main()
     return yyparse();
 }
 
+void yyerror(char *s)
+{
+    std::cerr << s << " on line " << yylineno << std::endl;
+    exit(EXIT_FAILURE);
+}
