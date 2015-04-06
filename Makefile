@@ -10,7 +10,7 @@ BISON_SRC = ./SyntaxAnalyzer/syntax.y
 BISON_DEFINES = ./SyntaxAnalyzer/yccdefs.h
 BISON_TARGET = $(BISON_SRC:.y=.c)
 
-BISON_FLAGS = -dt
+BISON_FLAGS = -dt -v
 
 LEX_SRC = ./LexicalAnalyzer/lexis.lex
 LEX_TARGET = $(LEX_SRC:.lex=.c)

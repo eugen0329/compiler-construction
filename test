@@ -22,3 +22,7 @@ for a = 1 in 23 ; a = 3 ; end
 for b = 3 in 34
 end
 
+
+fu test(a, b)
+  int a = 2
+end
