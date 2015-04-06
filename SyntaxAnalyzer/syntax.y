@@ -12,7 +12,7 @@
 
     extern int yylineno;
 
-    void yyerror(char *s);
+    int yyerror(const char *s);
 %}
 
 %token IF THEN ELIF ELS END FU FOR IN END_BL EXIT
@@ -22,6 +22,8 @@
 %token STRING_LITER FLOAT_LITER NUM_LITER ID
 
 %start statements
+
+%error-verbose
 
 %%
 
@@ -36,8 +38,12 @@ statement
         | declaration_statement
         | selection_statement
         | loop_statement
+        | proc_statement
         ;
 
+proc_statement
+        : FU ID '(' arg_expr_list ')' statements END_BL
+        ;
 
 selection_statement
         : IF  expression_statement statements END_BL
@@ -80,6 +86,7 @@ expression_statement
 
 expression
         : assignment_expression
+        | error
         ;
 
 assignment_expression
@@ -107,6 +114,7 @@ multiplicative_expr
         : unary_expr
         | multiplicative_expr '*' unary_expr
         | multiplicative_expr '/' unary_expr
+        /*| multiplicative_expr '/' */
         ;
 
 unary_expr
@@ -147,8 +155,9 @@ int main()
     return yyparse();
 }
 
-void yyerror(char *s)
+int yyerror(const char *s)
 {
     std::cerr << s << " on line " << yylineno << std::endl;
-    exit(EXIT_FAILURE);
+    return 0;
 }
+

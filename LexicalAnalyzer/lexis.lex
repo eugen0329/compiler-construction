@@ -8,7 +8,7 @@
     #endif
 
     #include "yccdefs.h"
-    extern void yyerror(char *s);
+    extern int yyerror(const char *s);
 %}
 
 digit           [0-9]
